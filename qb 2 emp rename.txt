@@ -1,0 +1,46 @@
+create database employeeinfo;
+use employeeinfo;
+ 
+CREATE TABLE employee (
+    emp_id INT PRIMARY KEY,
+    e_name VARCHAR(100),
+    salary DECIMAL(10, 2),
+    Date_of_Joining DATE,
+    Dept_no INT,
+    Designation VARCHAR(50),
+    Location VARCHAR(100)
+);
+
+ 
+INSERT INTO employee (emp_id, e_name, salary, Date_of_Joining, Dept_no, Designation, Location) VALUES
+(1, 'Jaya Bhatt', 50000, '2024-01-15', 1, 'Manager', 'Mumbai'),
+(2, 'Arya shah', 45000, '2022-05-20', 2, 'Marketing', 'Delhi'),
+(3, 'Vicky Rao', 40000, '2023-07-18', 3, 'Developer', 'Mumbai'),
+(4, 'Sushma Kher', 55000, '2024-02-25', 1, 'Manager', 'Bangalore'),
+(5, 'Ritu Mitra', 38000, '2022-09-10', 4, 'HR', 'Mumbai'),
+(6, 'Manvi Mehta', 47000, '2023-11-05', 2, 'Sales', 'Pune'),
+(7, 'Meera Patel', 53000, '2024-06-14', 3, 'Developer', 'Mumbai'),
+(8, 'Radha Sinha', 41000, '2023-08-21', 4, 'Analyst', 'Hyderabad'),
+(9, 'Gauksh Sharma', 48000, '2022-10-17', 1, 'Manager', 'Mumbai'),
+(10, 'Viha Raina ', 46000, '2022-03-22', 2, 'Marketing', 'Delhi');
+select* from employee;
+
+SELECT * FROM employee
+WHERE e_name LIKE '%e%';
+
+SELECT DISTINCT Designation FROM employee;
+
+SELECT e_name, salary FROM employee
+WHERE Location = 'Mumbai';
+
+SELECT e_name, Dept_no FROM employee
+WHERE Designation = 'Manager' OR Designation = 'Marketing';
+
+SELECT Dept_no, COUNT(emp_id) AS num_employees FROM employee
+GROUP BY Dept_no
+HAVING COUNT(emp_id) > 1;
+
+RENAME TABLE employee TO emp1;
+
+ALTER TABLE emp1
+ADD COLUMN city VARCHAR(50);
