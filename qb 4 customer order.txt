@@ -1,0 +1,70 @@
+create database customerinfo;
+use customerinfo;
+
+CREATE TABLE Customer (
+    c_id INT PRIMARY KEY,
+    c_name VARCHAR(100),
+    email VARCHAR(100),
+    city VARCHAR(50),
+    pincode INT
+);
+
+CREATE TABLE Orders (
+    order_id INT PRIMARY KEY,
+    date DATE,
+    amount DECIMAL(10, 2),
+    cust_id INT,
+    FOREIGN KEY (cust_id) REFERENCES Customer(c_id)
+);
+
+
+INSERT INTO Customer (c_id, c_name, email, city, pincode) VALUES
+(1, 'Amay Kumar', 'amay.kumar@example.com', 'Mumbai', 400001),
+(2, 'Riya Varma', 'riya.varma@example.com', 'Delhi', 110001),
+(3, 'Ranvir Singh', 'ranvir.singh@example.com', 'Mumbai', 400002),
+(4, 'Sunita Das', 'sunita.das@example.com', 'Bangalore', 560001),
+(5, 'Rahul Mehta', 'rahul.mehta@example.com', 'Chennai', 600001),
+(6, 'Anita Sharma', 'anita.sharma@example.com', 'Pune', 411001),
+(7, 'Suresh Jha', 'suresh.jha@example.com', 'Hyderabad', 500001),
+(8, 'Piya Patel', 'piya.patel@example.com', 'Ahmedabad', 380001),
+(9, 'Raj Khanna', 'raj.khanna@example.com', 'Kolkata', 302001),
+(10, 'Kiya Gupta', 'kiya.gupta@example.com', 'Bangalore', 700001);
+select * from Customer;
+
+INSERT INTO Orders (order_id, date, amount, cust_id) VALUES
+(101, '2023-01-15', 1500.00, 1),
+(102, '2023-01-20', 2000.00, 2),
+(103, '2023-01-22', 2500.00, 3),
+(104, '2023-01-25', 3000.00, 4),
+(105, '2023-01-30', 1000.00, 5),
+(106, '2023-02-01', 4000.00, 5),
+(107, '2023-02-05', 1200.00, 6),
+(108, '2023-02-10', 3500.00, 7),
+(109, '2023-02-15', 3000.00, 8),
+(110, '2023-02-20', 3200.00, 9);
+select* from Orders;
+
+SELECT * FROM Orders
+WHERE cust_id = 2;
+
+
+SELECT Customer.*, Orders.order_id, Orders.date, Orders.amount
+FROM Customer
+JOIN Orders ON Customer.c_id = Orders.cust_id;
+
+
+SELECT * FROM Customer
+WHERE c_id NOT IN (SELECT cust_id FROM Orders);
+
+
+SELECT Customer.*, Orders.order_id, Orders.date, Orders.amount
+FROM Customer
+LEFT JOIN Orders ON Customer.c_id = Orders.cust_id;
+
+
+SELECT * FROM Customer;
+
+
+SELECT c1.c_name AS Customer1, c2.c_name AS Customer2, c1.city
+FROM Customer c1, Customer c2
+WHERE c1.city = c2.city AND c1.c_id < c2.c_id;
