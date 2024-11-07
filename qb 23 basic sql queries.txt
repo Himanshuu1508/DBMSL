@@ -1,0 +1,49 @@
+create database employee;
+use employee;
+
+CREATE TABLE employee (
+    emp_id INT PRIMARY KEY,
+    e_name VARCHAR(100),
+    salary DECIMAL(10, 2),
+    date_of_joining DATE,
+    dapt_no INT,
+    designation VARCHAR(50)
+);
+
+INSERT INTO employee (emp_id, e_name, salary, date_of_joining, dapt_no, designation) VALUES
+(1, 'Amit Kumar', 50000, '2005-01-15', 1, 'Manager'),
+(2, 'Neha Singh', 45000, '2019-03-20', 2, 'Marketing'),
+(3, 'Rajesh Patil', 40000, '2021-08-18', 3, 'Developer'),
+(4, 'Priya Desai', 47000, '2018-09-10', 2, 'Sales'),
+(5, 'Rakesh Sharma', 52000, '2017-11-05', 1, 'Manager');
+
+SELECT * FROM employee;
+
+CREATE VIEW emp_vl AS
+SELECT emp_id, e_name, dapt_no
+FROM employee;
+
+SELECT * FROM emp_vl;
+
+SELECT e_name, dapt_no
+FROM employee
+WHERE designation = 'Manager' OR designation = 'Marketing';
+
+
+SELECT * FROM employee
+ORDER BY date_of_joining ASC
+LIMIT 1;
+SELECT * FROM employee
+ORDER BY date_of_joining DESC
+LIMIT 1;
+
+SELECT e_name, dapt_no
+FROM employee
+WHERE designation IN ('Manager', 'Market Analyst');
+
+SELECT * FROM employee
+WHERE MONTH(date_of_joining) = 8;
+
+SELECT * FROM employee
+WHERE date_of_joining > '2006-12-31';
+
