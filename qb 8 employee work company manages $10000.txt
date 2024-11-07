@@ -1,5 +1,3 @@
-create database employeeinfo;
-use employeeinfo;
 
 
 CREATE TABLE employee (
@@ -31,13 +29,15 @@ CREATE TABLE manages (
 INSERT INTO employee (employee_name, street, city) VALUES
 ('Amit Verma', 'MG Road', 'Mumbai'),
 ('Suman Rai', 'Park Street', 'Kolkata'),
-('Rakhi patel', 'Civil Lines', 'Delhi');
+('Rakhi patel', 'Civil Lines', 'Delhi'),
+('Daman Garg', 'Park Street', 'Pune');
 select * from employee;
 
 INSERT INTO works (employee_name, company_name, salary) VALUES
 ('Amit Verma', 'TechCorp', 12000),
 ('Suman Rai', 'DataSolutions', 13000),
-('Rakhi Patel', 'TechCorp', 11000);
+('Rakhi Patel', 'TechCorp', 11000),
+('Daman Garg', 'DataSolutions', 15000);
 select* from works;
 
 INSERT INTO company (company_name, city) VALUES
@@ -46,8 +46,8 @@ INSERT INTO company (company_name, city) VALUES
 select * from company;
 
 INSERT INTO manages (employee_name, manager_name) VALUES
-('Amit Verma', 'Suman Rao'),
-('Rakhi Patel', 'Amit Sharma');
+('Amit Verma', 'Rakhi Patel'),
+('Suman Rai', 'Daman Garg');
 select* from manages;
 
 SELECT e.employee_name, e.street, e.city
