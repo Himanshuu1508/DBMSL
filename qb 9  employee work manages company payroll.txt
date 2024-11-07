@@ -1,0 +1,63 @@
+create database employeeinfo;
+use employeeinfo;
+
+CREATE TABLE employee (
+    employee_name VARCHAR(100),
+    street VARCHAR(100),
+    city VARCHAR(50)
+);
+
+CREATE TABLE works (
+    employee_name VARCHAR(100),
+    company_name VARCHAR(100),
+    salary DECIMAL(10, 2)
+);
+
+CREATE TABLE company (
+    company_name VARCHAR(100),
+    city VARCHAR(50)
+);
+
+CREATE TABLE manages (
+    employee_name VARCHAR(100),
+    manager_name VARCHAR(100)
+);
+
+
+INSERT INTO employee (employee_name, street, city) VALUES
+('Amit Sharma', 'MG Road', 'Mumbai'),
+('Suman Rao', 'MG Road', 'Mumbai'),
+('Rakesh Kumar', 'Park Street', 'Delhi'),
+('Neha Patel', 'Noida', 'Delhi');
+select* from employee;
+
+INSERT INTO works (employee_name, company_name, salary) VALUES
+('Amit Sharma', 'TechCorp', 5000),
+('Suman Rao', 'TechCorp', 3000),
+('Rakesh Kumar', 'DataSolutions', 4000),
+('Neha Patel', 'DataSolutions', 4500);
+select* from works;
+
+INSERT INTO company (company_name, city) VALUES
+('TechCorp', 'Mumbai'),
+('DataSolutions', 'Delhi');
+select* from company;
+
+INSERT INTO manages (employee_name, manager_name) VALUES
+('Amit Sharma', 'Suman Rao'),
+('Rakesh Kumar', 'Neha Patel');
+select* from manages;
+
+SELECT company_name
+FROM works
+GROUP BY company_name
+ORDER BY SUM(salary) ASC
+LIMIT 1;
+
+
+SELECT e1.employee_name AS employee, e2.employee_name AS manager
+FROM employee e1
+JOIN manages m ON e1.employee_name = m.employee_name
+JOIN employee e2 ON m.manager_name = e2.employee_name
+WHERE e1.city = e2.city AND e1.street = e2.street;
+
