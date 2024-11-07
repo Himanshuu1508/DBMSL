@@ -45,7 +45,7 @@ SELECT * FROM Borrower;
 
 SELECT * FROM Fine;
 
-SELECT RollNo
+SELECT RollNo, DateofIssue
 FROM Borrower
 GROUP BY DateofIssue
 HAVING COUNT(RollNo) > 1;
