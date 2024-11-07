@@ -1,4 +1,5 @@
-
+create database employeeinfo;
+use employeeinfo;
 
 CREATE TABLE employee (
     employee_name VARCHAR(100),
