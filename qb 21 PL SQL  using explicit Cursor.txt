@@ -1,0 +1,67 @@
+create database roll;
+use roll;
+
+CREATE TABLE N_RollCall (
+    roll_no INT PRIMARY KEY,
+    name VARCHAR(100),
+    class VARCHAR(50)
+);
+
+
+CREATE TABLE O_RollCall (
+    roll_no INT PRIMARY KEY,
+    name VARCHAR(100),
+    class VARCHAR(50)
+);
+
+INSERT INTO N_RollCall (roll_no, name, class) VALUES
+(1, 'Amit Kumar', '10th'),
+(2, 'Neha Singh', '12th'),
+(3, 'Rajesh Patil', '10th');
+
+INSERT INTO O_RollCall (roll_no, name, class) VALUES
+(2, 'Neha Singh', '12th'),
+(4, 'Priya Desai', '11th');
+
+SELECT * FROM N_RollCall;
+SELECT * FROM O_RollCall;
+
+DELIMITER //
+
+CREATE PROCEDURE merge_rollcall_data()
+BEGIN
+    DECLARE v_roll_no INT;
+    DECLARE v_name VARCHAR(100);
+    DECLARE v_class VARCHAR(50);
+    
+    DECLARE done INT DEFAULT 0;
+    
+    DECLARE n_rollcall_cursor CURSOR FOR
+        SELECT roll_no, name, class FROM N_RollCall;
+    
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+    
+    OPEN n_rollcall_cursor;
+    
+    read_loop: LOOP
+        FETCH n_rollcall_cursor INTO v_roll_no, v_name, v_class;
+        
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+        
+        IF (SELECT COUNT(*) FROM O_RollCall WHERE roll_no = v_roll_no) = 0 THEN
+            INSERT INTO O_RollCall (roll_no, name, class)
+            VALUES (v_roll_no, v_name, v_class);
+        END IF;
+    END LOOP;
+    
+    CLOSE n_rollcall_cursor;
+END;
+//
+
+DELIMITER ;
+
+CALL merge_rollcall_data();
+
+SELECT * FROM O_RollCall;
