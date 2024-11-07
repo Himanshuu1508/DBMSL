@@ -1,0 +1,69 @@
+create database employeeinfo;
+use employeeinfo;
+
+CREATE TABLE employee (
+    emp_id INT PRIMARY KEY,
+    e_name VARCHAR(100),
+    salary DECIMAL(10, 2),
+    Date_of_Joining DATE,
+    Dept_no INT,
+    Designation VARCHAR(50)
+);
+
+INSERT INTO employee (emp_id, e_name, salary, Date_of_Joining, Dept_no, Designation) VALUES
+(1, 'Pihu Bhatt', 50000, '2024-01-15', 1, 'Manager'),
+(2, 'Arya shah', 45000, '2022-05-20', 2, 'Marketing'),
+(3, 'Vicky Rao', 40000, '2023-07-18', 3, 'Developer'),
+(4, 'Sushma Kher', 55000, '2024-02-25', 1, 'Manager'),
+(5, 'Ritu Mitra', 38000, '2022-09-10', 4, 'HR'),
+(6, 'Manvi Mehta', 47000, '2023-11-05', 2, 'Sales'),
+(7, 'Meera Patel', 53000, '2024-06-14', 3, 'Developer'),
+(8, 'Radha Sinha', 41000, '2023-08-21', 4, 'Analyst'),
+(9, 'Gauksh Sharma', 48000, '2022-10-17', 1, 'Manager'),
+(10, 'Viha Raina ', 46000, '2022-03-22', 2, 'Marketing');
+select* from employee;
+
+SELECT Dept_no, COUNT(emp_id) AS employee_count
+FROM employee
+GROUP BY Dept_no
+ORDER BY employee_count DESC
+LIMIT 1;
+
+
+SELECT e_name, Designation, Dept_no
+FROM employee
+WHERE e_name LIKE 'A%' OR e_name LIKE 'P%';
+
+
+SELECT MAX(salary) AS max_salary_dept2 FROM employee WHERE Dept_no = 2;
+SELECT MIN(salary) AS min_salary_dept4 FROM employee WHERE Dept_no = 4;
+
+
+SELECT * FROM employee
+WHERE salary < (SELECT AVG(salary) FROM employee WHERE Dept_no = 3);
+
+
+SELECT * FROM employee
+ORDER BY Date_of_Joining ASC
+LIMIT 1;
+SELECT * FROM employee
+ORDER BY Date_of_Joining DESC
+LIMIT 1;
+
+
+SELECT e_name, Dept_no
+FROM employee
+WHERE Designation IN ('Manager', 'Market Analyst');
+
+
+SELECT * FROM employee
+WHERE MONTH(Date_of_Joining) = 8;
+
+
+SELECT * FROM employee
+WHERE Date_of_Joining > '2006-12-31';
+
+
+SELECT Dept_no, AVG(salary) AS average_annual_salary
+FROM employee
+GROUP BY Dept_no;
