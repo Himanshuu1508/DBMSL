@@ -1,0 +1,64 @@
+create database custinfo;
+use custinfo;
+
+CREATE TABLE customer (
+    cust_id INT PRIMARY KEY,
+    c_name VARCHAR(100),
+    addr VARCHAR(100)
+);
+
+
+CREATE TABLE cust_Audit (
+    audit_id INT AUTO_INCREMENT PRIMARY KEY,
+    cust_id INT,
+    c_name VARCHAR(100),
+    addr VARCHAR(100),
+    action_type VARCHAR(10), -- 'UPDATE' or 'DELETE'
+    action_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO customer (cust_id, c_name, addr) VALUES
+(1, 'Amit Kumar', 'Mumbai'),
+(2, 'Neha Singh', 'Delhi'),
+(3, 'Rajesh Patil', 'Bangalore');
+
+SELECT * FROM customer;
+
+DELIMITER //
+
+
+CREATE TRIGGER customer_update_audit
+AFTER UPDATE ON customer
+FOR EACH ROW
+BEGIN
+    INSERT INTO cust_Audit (cust_id, c_name, addr, action_type)
+    VALUES (OLD.cust_id, OLD.c_name, OLD.addr, 'UPDATE');
+END;
+//
+
+
+CREATE TRIGGER customer_delete_audit
+AFTER DELETE ON customer
+FOR EACH ROW
+BEGIN
+    INSERT INTO cust_Audit (cust_id, c_name, addr, action_type)
+    VALUES (OLD.cust_id, OLD.c_name, OLD.addr, 'DELETE');
+END;
+//
+
+
+DELIMITER ;
+
+
+
+UPDATE customer
+SET addr = 'Hyderabad'
+WHERE cust_id = 1;
+
+
+DELETE FROM customer
+WHERE cust_id = 2;
+
+
+SELECT * FROM cust_Audit;
+
