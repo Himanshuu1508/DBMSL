@@ -11,7 +11,7 @@ CREATE TABLE employee (
 );
 
 INSERT INTO employee (emp_id, e_name, salary, Date_of_Joining, Dept_no, Designation) VALUES
-(1, 'Pihu Bhatt', 50000, '2024-01-15', 1, 'Manager'),
+(1, 'Piha Bhatt', 50000, '2024-01-15', 1, 'Manager'),
 (2, 'Arya shah', 45000, '2022-05-20', 2, 'Marketing'),
 (3, 'Vicky Rao', 40000, '2023-07-18', 3, 'Developer'),
 (4, 'Sushma Kher', 55000, '2024-02-25', 1, 'Manager'),
