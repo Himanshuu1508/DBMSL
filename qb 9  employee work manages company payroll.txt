@@ -1,4 +1,4 @@
-create database employeeinfo;
+.cicreate database employeeinfo;
 use employeeinfo;
 
 CREATE TABLE employee (
@@ -55,7 +55,7 @@ ORDER BY SUM(salary) ASC
 LIMIT 1;
 
 
-SELECT e1.employee_name AS employee, e2.employee_name AS manager
+SELECT e1.employee_name AS employee, e2.employee_name AS manager, e1.city
 FROM employee e1
 JOIN manages m ON e1.employee_name = m.employee_name
 JOIN employee e2 ON m.manager_name = e2.employee_name
