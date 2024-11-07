@@ -1,0 +1,35 @@
+create database jobinfo;
+use jobinfo;
+
+CREATE TABLE jobs (
+    job_id INT PRIMARY KEY,
+    job_title VARCHAR(100),
+    min_sal DECIMAL(10, 2),
+    max_sal DECIMAL(10, 2)
+);
+
+
+INSERT INTO jobs (job_id, job_title, min_sal, max_sal) VALUES
+(1, 'Software Engineer', 30000, 60000),
+(2, 'Data Analyst', 25000, 55000),
+(3, 'Project Manager', 50000, 90000),
+(4, 'HR Specialist', 20000, 45000);
+
+
+CREATE TABLE job_history (
+    employee_id INT UNIQUE,
+    start_date DATE,
+    end_date DATE,
+    job_id INT,
+    department_id INT,
+    FOREIGN KEY (job_id) REFERENCES jobs(job_id)
+);
+
+INSERT INTO job_history (employee_id, start_date, end_date, job_id, department_id) VALUES
+(101, '2020-01-15', '2022-06-30', 1, 10),
+(102, '2019-03-20', '2021-12-01', 2, 20),
+(103, '2018-07-10', '2023-08-20', 3, 30),
+(104, '2021-09-01', NULL, 4, 40); 
+select * from jobs;
+select * from job_history;
+
