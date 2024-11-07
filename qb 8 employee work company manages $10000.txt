@@ -50,6 +50,12 @@ INSERT INTO manages (employee_name, manager_name) VALUES
 ('Rakhi Patel', 'Amit Sharma');
 select* from manages;
 
+SELECT e.employee_name, e.street, e.city
+FROM employee e
+JOIN works w ON e.employee_name = w.employee_name
+WHERE w.salary > 10000;
+
+
 SELECT e.employee_name
 FROM employee e
 JOIN works w ON e.employee_name = w.employee_name
