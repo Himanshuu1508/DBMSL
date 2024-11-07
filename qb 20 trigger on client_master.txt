@@ -52,3 +52,4 @@ UPDATE client_master
 SET acc_no = 55678
 WHERE c_id = 1;
 
+SELECT * FROM client_Audit;
