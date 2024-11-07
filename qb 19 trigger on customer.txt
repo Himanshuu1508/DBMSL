@@ -13,7 +13,7 @@ CREATE TABLE cust_Audit (
     cust_id INT,
     c_name VARCHAR(100),
     addr VARCHAR(100),
-    action_type VARCHAR(10), -- 'UPDATE' or 'DELETE'
+    action_type VARCHAR(10), 
     action_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
