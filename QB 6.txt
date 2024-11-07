@@ -1,0 +1,36 @@
+create database studentinfo;
+use studentinfo;
+
+-- 6.1 Create the student table with primary key constraint
+CREATE TABLE student (
+    roll_no INT PRIMARY KEY,
+    name VARCHAR(100),
+    marks INT,
+    class VARCHAR(50)
+);
+
+-- 6.2 Add a new column to store student’s age (DDL operation)
+ALTER TABLE student
+ADD COLUMN age INT;
+
+-- 6.3 Rename column 'marks' to 'total_marks' (DDL operation)
+ALTER TABLE student
+CHANGE marks total_marks INT;
+
+-- 6.4 Insert a few records into the student table (DML operation)
+INSERT INTO student (roll_no, name, total_marks, class, age) VALUES
+(1, 'Aman Verma', 780, '10th', 15),
+(2, 'Neha Sharma', 850, '12th', 17),
+(3, 'Rakesh Patil', 620, '11th', 16);
+select * from student;
+
+-- 6.5 Update marks of a specific student by roll_no (DML operation)
+UPDATE student
+SET total_marks = 900
+WHERE roll_no = 2;
+select * from student;
+
+-- 6.6 Delete a student record by roll_no (DML operation)
+DELETE FROM student
+WHERE roll_no = 3;
+select * from student;
