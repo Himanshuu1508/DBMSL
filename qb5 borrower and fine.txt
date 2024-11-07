@@ -1,3 +1,5 @@
+create database library;
+use library;
 CREATE TABLE Borrower (
     RollNo INT PRIMARY KEY,
     Name VARCHAR(100),
@@ -15,7 +17,7 @@ CREATE TABLE Fine (
 );
 INSERT INTO Borrower (RollNo, Name, DateofIssue, NameofBook, Status) VALUES
 (1, 'Alice', '2024-01-10', 'The Great Gatsby', 'Issued'),
-(2, 'Bob', '2024-02-15', '1984', 'Returned'),
+(2, 'Bob', '2024-01-10', '1984', 'Returned'),
 (3, 'Charlie', '2024-03-05', 'To Kill a Mockingbird', 'Issued'),
 (4, 'David', '2024-03-20', 'The Catcher in the Rye', 'Returned'),
 (5, 'Eve', '2024-04-01', 'Moby Dick', 'Issued'),
@@ -47,6 +49,12 @@ SELECT * FROM Fine;
 
 SELECT RollNo, DateofIssue
 FROM Borrower
-GROUP BY DateofIssue
-HAVING COUNT(RollNo) > 1;
+WHERE DateofIssue IN (
+    SELECT DateofIssue
+    FROM Borrower
+    GROUP BY DateofIssue
+    HAVING COUNT(*) > 1
+);
+
+
 
