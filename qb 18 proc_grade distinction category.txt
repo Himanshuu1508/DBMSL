@@ -1,0 +1,98 @@
+create database studinfo;
+use studinfo;
+-- 18.1 Create the Stud_Marks table
+CREATE TABLE Stud_Marks (
+    name VARCHAR(100),
+    total_marks INT
+);
+
+-- 18.2 Create the Result table to store student grades with auto-increment for roll_no
+CREATE TABLE Result (
+    roll_no INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    grade VARCHAR(20)
+);
+
+-- 18.3 Create the stored procedure proc_Grade for grade categorization
+DELIMITER //
+CREATE PROCEDURE proc_Grade() 
+BEGIN
+    DECLARE student_grade VARCHAR(20);
+    
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE student_name VARCHAR(100);
+    DECLARE student_marks INT;
+    
+    DECLARE student_cursor CURSOR FOR SELECT name, total_marks FROM Stud_Marks;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+    
+    OPEN student_cursor;
+    
+    read_loop: LOOP
+        FETCH student_cursor INTO student_name, student_marks;
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+        
+        IF student_marks >= 990 AND student_marks <= 1500 THEN
+            SET student_grade = 'Distinction';
+        elseif student_marks BETWEEN 900 AND 989 THEN
+            SET student_grade = 'First Class';
+        elseif student_marks BETWEEN 825 AND 899 THEN
+            SET student_grade = 'Higher Second Class';
+        ELSE
+            SET student_grade = 'Pass';
+        END IF;
+        
+        -- Insert into Result table with the categorized grade
+        INSERT INTO Result (name, grade)
+        VALUES (student_name, student_grade);
+    END LOOP;
+    
+    CLOSE student_cursor;
+END //
+DELIMITER ;
+
+-- 18.4 Insert sample data into Stud_Marks table
+INSERT INTO Stud_Marks (name, total_marks) VALUES
+('Amit Kumar', 1200),
+('Neha Singh', 950),
+('Rajesh Patil', 870),
+('Priya Desai', 820),
+('Rakesh Sharma', 880);
+
+-- Display table contents before procedure execution
+SELECT * FROM Stud_Marks;
+
+-- Expected Output:
+-- +-------------+-------------+
+-- | name        | total_marks |
+-- +-------------+-------------+
+-- | Amit Kumar  | 1200        |
+-- | Neha Singh  | 950         |
+-- | Rajesh Patil| 870         |
+-- | Priya Desai | 820         |
+-- | Rakesh Sharma | 880       |
+-- +-------------+-------------+
+
+-- 18.5 Call the procedure to categorize students
+CALL proc_Grade();
+
+-- Display Result table after procedure execution
+SELECT * FROM Result;
+
+-- Expected Output:
+-- +---------+-------------+----------------------+
+-- | roll_no | name        | grade                |
+-- +---------+-------------+----------------------+
+-- |    1    | Amit Kumar  | Distinction          |
+-- |    2    | Neha Singh  | First Class          |
+-- |    3    | Rajesh Patil| Higher Second Class  |
+-- |    4    | Priya Desai | Pass                 |
+-- |    5    | Rakesh Sharma | Higher Second Class |
+-- +---------+-------------+----------------------+
+
+-- Explanation:
+-- This procedure processes each student’s total marks and categorizes them into grades,
+-- storing the results in the `Result` table.
+
