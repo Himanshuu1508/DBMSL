@@ -1,0 +1,67 @@
+create database employeeinfo;
+use employeeinfo;
+
+
+CREATE TABLE employee (
+    employee_name VARCHAR(100),
+    street VARCHAR(100),
+    city VARCHAR(50)
+);
+
+
+CREATE TABLE works (
+    employee_name VARCHAR(100),
+    company_name VARCHAR(100),
+    salary DECIMAL(10, 2)
+);
+
+
+CREATE TABLE company (
+    company_name VARCHAR(100),
+    city VARCHAR(50)
+);
+
+
+CREATE TABLE manages (
+    employee_name VARCHAR(100),
+    manager_name VARCHAR(100)
+);
+
+
+INSERT INTO employee (employee_name, street, city) VALUES
+('Amit Verma', 'MG Road', 'Mumbai'),
+('Suman Rai', 'Park Street', 'Kolkata'),
+('Rakhi patel', 'Civil Lines', 'Delhi');
+select * from employee;
+
+INSERT INTO works (employee_name, company_name, salary) VALUES
+('Amit Verma', 'TechCorp', 12000),
+('Suman Rai', 'DataSolutions', 13000),
+('Rakhi Patel', 'TechCorp', 11000);
+select* from works;
+
+INSERT INTO company (company_name, city) VALUES
+('TechCorp', 'Mumbai'),
+('DataSolutions', 'Kolkata');
+select * from company;
+
+INSERT INTO manages (employee_name, manager_name) VALUES
+('Amit Verma', 'Suman Rao'),
+('Rakhi Patel', 'Amit Sharma');
+select* from manages;
+
+SELECT e.employee_name
+FROM employee e
+JOIN works w ON e.employee_name = w.employee_name
+JOIN company c ON w.company_name = c.company_name
+WHERE e.city = c.city;
+
+
+SELECT w.employee_name
+FROM works w
+JOIN (
+    SELECT company_name, AVG(salary) AS avg_salary
+    FROM works
+    GROUP BY company_name
+) AS avg_salaries ON w.company_name = avg_salaries.company_name
+WHERE w.salary > avg_salaries.avg_salary;
