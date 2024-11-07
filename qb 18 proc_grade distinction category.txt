@@ -46,7 +46,7 @@ BEGIN
     END LOOP;
     
     CLOSE student_cursor;
-
+END//
 DELIMITER ;
 
 INSERT INTO Stud_Marks (name, total_marks) VALUES
@@ -63,8 +63,4 @@ CALL proc_Grade();
 
 SELECT * FROM Result;
 
-
--- Explanation:
--- This procedure processes each student’s total marks and categorizes them into grades,
--- storing the results in the `Result` table.
 
