@@ -1,0 +1,65 @@
+create database book;
+use book;
+
+CREATE TABLE Borrower (
+    roll_no INT PRIMARY KEY,
+    name VARCHAR(100),
+    date_of_issue DATE,
+    name_of_book VARCHAR(100),
+    status VARCHAR(10) -- 'Issued' or 'Returned'
+);
+
+CREATE TABLE Fine (
+    fine_id INT AUTO_INCREMENT PRIMARY KEY,
+    roll_no INT,
+    date DATE,
+    amt DECIMAL(10, 2)
+);
+
+INSERT INTO Borrower (roll_no, name, date_of_issue, name_of_book, status) VALUES
+(1, 'Amit Kumar', '2024-10-20', 'Database Systems', 'Issued'),
+(2, 'Neha Singh', '2024-10-15', 'Operating Systems', 'Issued'),
+(3, 'Rajesh Patil', '2023-10-05', 'Computer Networks', 'Returned');
+
+SELECT * FROM Borrower;
+
+DELIMITER //
+
+CREATE PROCEDURE CalculateFine (p_roll_no INT, p_name_of_book VARCHAR(100))
+BEGIN
+    DECLARE v_date_of_issue DATE;
+    DECLARE v_days INT;
+    DECLARE v_fine_amt DECIMAL(10, 2);
+
+    -- Retrieve the date of issue for the given roll number and book name
+    SELECT date_of_issue INTO v_date_of_issue
+    FROM Borrower
+    WHERE roll_no = p_roll_no AND name_of_book = p_name_of_book AND status = 'Issued';
+
+    -- Calculate the number of days since the date of issue
+    SET v_days = DATEDIFF(CURDATE(), v_date_of_issue);
+
+    -- Check if the number of days is between 15 and 30
+    IF v_days BETWEEN 15 AND 30 THEN
+        SET v_fine_amt = v_days * 5; -- Fine amount is Rs 5 per day
+
+        -- Insert the fine record into the Fine table
+        INSERT INTO Fine (roll_no, date, amt)
+        VALUES (p_roll_no, CURDATE(), v_fine_amt);
+        
+        -- Output message indicating that the fine was recorded
+        SELECT CONCAT('Fine of Rs ', v_fine_amt, ' recorded for Roll No ', p_roll_no) AS Fine_Message;
+    ELSE
+        SELECT 'No fine applicable' AS Fine_Message;
+    END IF;
+END;
+//
+
+DELIMITER ;
+
+CALL CalculateFine(1, 'Database Systems');
+CALL CalculateFine(2, 'Operating Systems');
+
+SELECT * FROM Fine;
+
+
