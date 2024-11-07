@@ -1,0 +1,52 @@
+CREATE TABLE Borrower (
+    RollNo INT PRIMARY KEY,
+    Name VARCHAR(100),
+    DateofIssue DATE,
+    NameofBook VARCHAR(100),
+    Status VARCHAR(10) CHECK (Status IN ('Issued', 'Returned'))
+);
+
+CREATE TABLE Fine (
+    RollNo INT,
+    Date DATE,
+    Amt DECIMAL(10, 2),
+    PRIMARY KEY (RollNo, Date),
+    FOREIGN KEY (RollNo) REFERENCES Borrower(RollNo)
+);
+INSERT INTO Borrower (RollNo, Name, DateofIssue, NameofBook, Status) VALUES
+(1, 'Alice', '2024-01-10', 'The Great Gatsby', 'Issued'),
+(2, 'Bob', '2024-02-15', '1984', 'Returned'),
+(3, 'Charlie', '2024-03-05', 'To Kill a Mockingbird', 'Issued'),
+(4, 'David', '2024-03-20', 'The Catcher in the Rye', 'Returned'),
+(5, 'Eve', '2024-04-01', 'Moby Dick', 'Issued'),
+(6, 'Frank', '2024-04-10', 'War and Peace', 'Issued'),
+(7, 'Grace', '2024-04-18', 'Pride and Prejudice', 'Returned'),
+(8, 'Hank', '2024-05-05', 'The Odyssey', 'Issued'),
+(9, 'Ivy', '2024-06-01', 'The Iliad', 'Returned'),
+(10, 'Jack', '2024-06-10', 'Crime and Punishment', 'Issued');
+
+INSERT INTO Fine (RollNo, Date, Amt) VALUES
+(1, '2024-02-01', 5.00),
+(2, '2024-03-01', 3.00),
+(3, '2024-04-01', 2.50),
+(4, '2024-05-01', 4.00),
+(5, '2024-05-15', 6.00),
+(6, '2024-06-01', 7.50),
+(7, '2024-06-05', 2.00),
+(8, '2024-06-10', 3.50),
+(9, '2024-07-01', 5.50),
+(10, '2024-07-10', 4.50);
+
+SELECT COUNT(*) AS IssuedBooksCount
+FROM Borrower
+WHERE Status = 'Issued';
+
+SELECT * FROM Borrower;
+
+SELECT * FROM Fine;
+
+SELECT RollNo
+FROM Borrower
+GROUP BY DateofIssue
+HAVING COUNT(RollNo) > 1;
+
