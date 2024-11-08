@@ -74,6 +74,23 @@ db.employee.deleteMany({ Dept_no: "D02" });
 
 db.employee.aggregate([
     {
+        $group: {
+            _id: "$Dept_no",       // Group by department number
+            employeeCount: { $sum: 1 }  // Count the number of employees in each department
+        }
+    },
+    {
+        $project: {
+            _id: 0,               // Exclude the _id field from the output
+            Dept_no: "$_id",      // Rename _id to Dept_no
+            employeeCount: 1      // Include the employee count
+        }
+    }
+]).pretty();
+
+
+db.employee.aggregate([
+    {
         $match: { Dept_no: "D02" } // Assuming D02 is Sales department
     },
     {
